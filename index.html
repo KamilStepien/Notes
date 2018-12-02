@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+
+    <title>Document</title>
+    
+</head>
+<body>
+
+    <div>
+
+    
+    <input type="text" name="text" id="">
+    <input type="button" value="Create">
+    
+    <div></div>
+
+    <div id = "Notes_checked">
+     
+    </div>
+    <div id = "Notes">
+     
+        </div>
+</body>
+<script>
+class Note
+{
+    
+    constructor (topic , text , color , creationDate ,isChecked = false)
+    {
+        this.topic = topic;
+        this.text  = text;
+        this.color = color;
+        this.creationDate = creationDate;
+        this.isChecked  = isChecked;
+        this.newDiv =  document.createElement("div");;
+        
+    }
+
+    
+     CreateNote()
+    {
+      
+        this.newDiv.className = "note";
+        this.newDiv.innerHTML += '<input type="checkbox" name="checkbox" id="myCheck" >'
+        this.newDiv.innerHTML += "<h1>"+ this.topic+"</h1> <p>"+this.text+"</p>";
+        if(this.isChecked == true)
+        document.querySelector("#Notes_checked").appendChild(this.newDiv);
+        else 
+        document.querySelector("#Notes").appendChild(this.newDiv);
+    }
+
+   
+    
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+let note = new Note("zakupy","ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml",true)
+let note1 = new Note("zakupy","ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddddddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml")
+let note2 = new Note("zakupy","ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssdksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml")
+let note3 = new Note("zakupy","ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddddddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml")
+let note4 = new Note("zakupy","ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml")
+let note5 = new Note("zakupy","ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddddddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml")
+let note6 = new Note("zakupy","ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssdksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd ksmlddddd dddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml")
+let note7 = new Note("zakupy","ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddd ksmlddddddddddddddd ddddddddd dddssss dwqwd wqdss ssssss ssss ssssssd dw wad","ksml","ksml",true)
+
+
+
+
+
+note.CreateNote();
+note1.CreateNote();
+note2.CreateNote();
+note3.CreateNote();
+note4.CreateNote();
+note5.CreateNote();
+note6.CreateNote();
+note7.CreateNote();
+
+
+
+
+note1.newDiv.querySelector("input[name=checkbox]").addEventListener('change', ()=>{
+            if(note1.newDiv.querySelector("input[name=checkbox]").checked)
+            {
+            document.querySelector("#Notes_checked").appendChild(note1.newDiv);
+         
+            }
+            
+            else
+            document.querySelector("#Notes").appendChild(note1.newDiv);
+
+})
+
+
+</script>
+</html>
