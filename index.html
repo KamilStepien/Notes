@@ -1,200 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 
     <title>Document</title>
-    
+
 </head>
+
 <body>
 
+    <div id="noteCreator">
 
-    <div id ="noteCreator">
-        <div id = "noteCreator_first"><input type="text" name="text" id="noteTopic" maxlength = "50" value = "Temat"> <div class ="checkboxContiner">
-            <label class="container">
-                    <input type="checkbox" checked  id = "checkboxNoteCreate">
-                    <span class="checkmark"></span>
-            </label>
-            </div></div> 
-        <div id = "noteCreator_second">
-          
-            
-            <textarea  id="noteText" cols="50" rows="10"></textarea>
-            <input type="button" value="Create" id= "create">
+
+        <div class="Icons">
+
             <ul>
-                
-                <div class = "Icons">
+                <li>
+                    <div class="icon"><i class="fas fa-palette"> </i>
 
-                    <ul>
-                        <li><a href=""><i class="fas fa-palette"> </i></a><div class = "tlo"><div><div id="chooseColor"><div class = "cyrcle" style="background-color:white;"></div> <div class = "cyrcle"style="background-color:#f28b82;"></div><div class = "cyrcle" style="background-color:#fbbc04;"></div><div class = "cyrcle" style="background-color:#fff475;"></div><div class = "cyrcle" style="background-color:#ccff90;"></div><div class = "cyrcle" style="background-color:#a7ffeb;"></div><div class = "cyrcle" style="background-color:#a7ffeb;"></div><div class = "cyrcle" style="background-color:#aecbfa;"></div><div class = "cyrcle" style="background-color:#e8eaed;"></div></div> </li>
-                        
+                        <div id="chooseColor">
+                            <div class="cyrcle" style="background-color:white;"></div>
+                            <div class="cyrcle" style="background-color:#f28b82;"></div>
+                            <div class="cyrcle" style="background-color:#fbbc04;"></div>
+                            <div class="cyrcle" style="background-color:#fff475;"></div>
+                            <div class="cyrcle" style="background-color:#ccff90;"></div>
+                            <div class="cyrcle" style="background-color:#a7ffeb;"></div>
+                            <div class="cyrcle" style="background-color:#a7ffeb;"></div>
+                            <div class="cyrcle" style="background-color:#aecbfa;"></div>
+                            <div class="cyrcle" style="background-color:#e8eaed;"></div>
+                        </div>
+                    </div>
+                    <div class="tlo">
 
-                        
-                    </ul>
-                </div>
-               
+
+                    </div>
+                </li>
+                <li>
+                    <div class="icon"><i class="fas fa-tags"> </i>
+
+                        <div id="chooseTag">
+                            <div id="createTagBox">
+                                <input type="text" id="tagName" maxlength="20">
+                                <input type="button" value="Create" id="createTagButton">
+                            </div>
+                            <div id="boxTag">
+                                <div><input type="radio" name="" id="">
+                                    <p>dsa</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tlo">
+
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon"><i class="fas fa-bell"> </i></div>
+                    <div class="tlo"></div>
+                </li>
+
+
 
             </ul>
-            
-            
+
+            <div class="checkboxContiner">
+                <label class="container">
+                    <input type="checkbox" checked id="checkboxNoteCreate">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
 
         </div>
+
+
+
+
+        <div id="noteCreator_first"><input type="text" name="text" id="noteTopic" maxlength="50" value="Temat">
+
+
+            <div id="noteCreator_second">
+
+
+                <textarea id="noteText" cols="50" rows="10"></textarea>
+                <div id="lastModificationData"> </div>
+
+
+                <input type="button" value="Zamknij" id="create">
+               
+            </div>
+           
+        </div>
     </div>
-   
     
-    <div id = "nots">
-    <div id = "Notes_checked">
-     <p> </p>
-    </div>
-    <div id = "Notes_unChecked">
-    <p> </p>
-    </div>
+    <div id="nots">
+        <div id="Notes_checked">
+            <p> </p>
+        </div>
+        <div id="Notes_unChecked">
+            <p> </p>
+        </div>
     </div>
 </body>
+
 <script>
-class Note
-{
-    
-    constructor (topic , text , color , creationDate ,isChecked = false)
-    {
-        this.x=0;
-        this.y=0
-        this.topic = topic;
-        this.text  = text;
-        this.color = color;
-        this.creationDate = creationDate;
-        this.isChecked  = isChecked;
-        this.newDiv =  document.createElement("div");
-        
-    }
+    class Note {
 
-    
-     CreateNote()
-    {
-        this.newDiv.style.backgroundColor = this.color;
-        this.newDiv.className = "note";
-        this.newDiv.innerHTML += '<label class="container">'+
-                    '<input type="checkbox" name="checkbox"   >'+
-                    '<span class="checkmark"></span>'+
-                    '</label>'
-        this.newDiv.innerHTML += "<h1>"+ this.topic+"</h1> <p>"+this.text+"</p>";
-        if(this.isChecked == true)
-        document.querySelector("#Notes_checked").appendChild(this.newDiv);
-        else 
-        document.querySelector("#Notes_unChecked").appendChild(this.newDiv);
-    }
+        constructor(topic, text, color, creationDate = "1", isChecked ) {
+            this.x = 0;
+            this.y = 0
+            this.topic = topic;
+            this.text = text;
+            this.color = color;
+            this.creationDate = creationDate;
+            this.isChecked = isChecked;
+            this.newDiv = document.createElement("div");
+            this. tabTags;
 
-   
-    
+        }
 
-}
-
-let button;
-let mousedownTarget;
-
-//document.addEventListener('DOMContentLoaded', () => {
- // getValueFromStorage();
-  
-//});
-
-
-const nots = [];
-const storageArray = [];
-
-//zapisywanie w localStorage
-
-function setStorageItems(val) {
-  localStorage.setItem('todos', JSON.stringify(storageArray));
-}
-
-// odczytwyanie z localStorage
-function getValueFromStorage() {
-  const array = JSON.parse(localStorage.getItem('todos'));
-  if(!array)
-      return;
-
-  array.forEach(a => {storageArray.push(a) 
-    nots.push(new Note(a.topic,a.text , a.color , a.creationDate).CreateNote())
-    
-  });
-}
-
-//animacje okna tworzenia notatki
-document.querySelector("#noteCreator_first").addEventListener("click", ()=>
-{
-   
-        document.querySelector("#noteCreator_second").style.height="380px";
-
-})
-
-
-//zmiana koloru notatki
-document.querySelector("#chooseColor").addEventListener("click" , (e)=>
-
-{
-
-document.querySelector("#noteCreator").style.backgroundColor = e.target.style.backgroundColor;
-
-})
-
-
-
-// tworzenie notatki
-document.querySelector("#create").addEventListener("click" , ()=>{
-   
-    let notatka = new Note(document.querySelector("#noteTopic").value,AddBr(document.querySelector("#noteText").value),document.querySelector("#noteCreator").style.backgroundColor,"ksml",document.querySelector("#checkboxNoteCreate").checked) 
-    storageArray.push(notatka);
-    storageArray[storageArray.length-1].CreateNote();
-    setStorageItems(storageArray[storageArray.length-1]);
-    document.querySelector("#noteCreator_second").style.height="0"
-    ClearNoteCreator();
-})
-
-function ClearNoteCreator()
-{
-    document.querySelector("#noteTopic").value = "Temat";
-    document.querySelector("#noteText").value = "Text";
-}
-
-
-function AddBr(value)
-{
-    let newValue = "";
-    for(let i = 0 ;  i < value.length ; i++)
-    {
-        if(value[i]=="\n")
-        newValue += "<br>";
-        else
-        newValue += value[i];
-    }
-    return newValue;
-}
-
-//przypinai i odpinaie notatki
-document.addEventListener('mousemove',(e)=>
-{
-  
-    if(e.target.className == "note")
-    {
- 
-        e.target.querySelector("input[name=checkbox]").addEventListener('change', ()=>{
-            if(e.target.querySelector("input[name=checkbox]").checked)
-            {
-            document.querySelector("#Notes_checked").appendChild(e.target);
-         
-            }
+        //// indek id diva zgadzajoce sie z numerm w tablicy notatki
+        CreateNote(index) {
+            this.newDiv.style.backgroundColor = this.color;
+            this.newDiv.className = "note";
+            this.newDiv.id = index;
+            this.newDiv.innerHTML += '<div class="icons"> <div class ="iconaExit"> <i class="fas fa-times-circle"></i> <i class="fas fa-bell"></i></div>' +'<label class="container">' +
+                '<input type="checkbox" name="checkbox"   >' +
+                '<span class="checkmark"></span>' +
+                '</label>'+'</div>';
             
+            this.newDiv.innerHTML += '<div>"<h1>'+ this.topic + "</h1> <p>" + this.text + "</p></div>";
+            this.newDiv.innerHTML += '<div class="tags"> sdd</div>';
+            this.newDiv.innerHTML += '<div class="dataCreated"> '+this.creationDate+'</div>';
+            if (this.isChecked == true)
+                document.querySelector("#Notes_checked").appendChild(this.newDiv);
             else
-            document.querySelector("#Notes_unChecked").appendChild(e.target);
+                document.querySelector("#Notes_unChecked").appendChild(this.newDiv);
+        }
+
+
+
+
+    }
+
+    let button;
+    let mousedownTarget;
+
+    document.addEventListener('DOMContentLoaded', () => {
+     getValueFromStorage();
+
+    });
+
+
+    const nots = [];
+    const storageArray = [];
+    const tabTag = [];
+
+    //zapisywanie w localStorage
+
+    function setStorageItems() {
+        localStorage.clear();
+        localStorage.setItem('todos', JSON.stringify(storageArray));
+    }
+
+    // odczytwyanie z localStorage
+    function getValueFromStorage() {
+        const array = JSON.parse(localStorage.getItem('todos'));
+        if (!array)
+            return;
+
+        array.forEach(a => {
+            storageArray.push(a)
+            nots.push(new Note(a.topic, a.text, a.color, a.creationDate , a.isChecked).CreateNote(storageArray.length-1))
+
+        });
+    }
+
+    //animacje okna tworzenia notatki
+    document.querySelector("#noteCreator_first input").addEventListener("click", () => {
+
+        document.querySelector("#noteCreator_second").style.height = "300px";
 
     })
+
+
+    //zmiana koloru notatki
+    document.querySelector("#chooseColor").addEventListener("click", (e) => {
+
+        document.querySelector("#noteCreator").style.backgroundColor = e.target.style.backgroundColor;
+
+    })
+
+
+
+    // tworzenie notatki
+    document.querySelector("#create").addEventListener("click", () => {
+
+        
+        let notatka = new Note(document.querySelector("#noteTopic").value, AddBr(document.querySelector("#noteText").value), document.querySelector("#noteCreator").style.backgroundColor, new Date().toLocaleString() , document.querySelector("#checkboxNoteCreate").checked)
+        storageArray.push(notatka);
+        storageArray[storageArray.length - 1].CreateNote(storageArray.length-1);
+        setStorageItems();
+        ClearNoteCreator();
+    })
+
+    function ClearNoteCreator() {
+        document.querySelector("#noteTopic").value = "Temat";
+        document.querySelector("#noteText").value = "Text";
+        document.querySelector("#noteCreator_second").style.height = "0";
     }
-   
-})
+    
+
+    function AddBr(value) {
+        let newValue = "";
+        for (let i = 0; i < value.length; i++) {
+            if (value[i] == "\n")
+                newValue += "<br>";
+            else
+                newValue += value[i];
+        }
+        return newValue;
+    }
+
+    //przypinai i odpinaie notatki
+    document.addEventListener('mousemove', (e) => {
+
+        if (e.target.className == "note") {
+
+            e.target.querySelector("input[name=checkbox]").addEventListener('change', () => {
+                if (e.target.querySelector("input[name=checkbox]").checked) {
+                    document.querySelector("#Notes_checked").appendChild(e.target);
+                   
+                    console.log(e.target.id);
+                    storageArray[e.target.id].isChecked =true;
+                   
+                   setStorageItems();
+                  
+                }
+
+                else
+                {
+                    document.querySelector("#Notes_unChecked").appendChild(e.target);
+                    storageArray[e.target.id].isChecked =false;
+                 
+                   setStorageItems();
+                   
+                }  
+            })
+        }
+
+    })
+
+    //dodawanie tagów 
+    document.querySelector("#createTagButton").addEventListener('click',
+        () => {
+            if (document.querySelector('#tagName').value != "") {
+                let newDiv = document.createElement("div");
+                newDiv.innerHTML = '<input type="radio"  id="' + document.querySelector('#tagName').value + '"> <p>' + document.querySelector('#tagName').value + "</p>";
+
+                document.querySelector("#boxTag").appendChild(newDiv);
+            }
+
+        }
+    )
+
+    //usuwanie notatki 
+    document.addEventListener("click", (e)=>
+    {
+        
+        if(e.target.className == "fas fa-times-circle")
+        {
+
+            let parent =  e.target.parentNode.parentNode.parentNode;
+           
+           
+            storageArray.splice(parent.id , 1);
+            parent.remove();
+            setStorageItems();
+           
+        }
+    }
+    )
+    
+
 /*// przesuwanie notatki po oknie przeglondarki 
 document.addEventListener("mousemove" , (e)=>
 {
@@ -231,4 +326,5 @@ document.addEventListener('mouseup',
 */
 
 </script>
+
 </html>
