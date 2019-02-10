@@ -35,7 +35,7 @@ ul
   }
   
  
-  .checkmark {
+  .checkmark , .checkmark1 {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -45,9 +45,16 @@ ul
 	border-radius: 50%;
 	background-color: #eee;
   }
-  
+  .checkmark1 {
+    height: 15px;
+    width: 15px;
+    left: 10px;
+  }
 
   .container:hover input ~ .checkmark {
+	background-color: #ccc;
+  }
+  .container:hover input ~ .checkmark1 {
 	background-color: #ccc;
   }
   
@@ -56,9 +63,12 @@ ul
 	background-color: #2196F3;
 	
   }
+  .container input:checked ~ .checkmark1 {
+	background-color: #2196F3;
+	
+  }
   
-  
-  .checkmark:after {
+  .checkmark:after ,  .checkmark1:after{
 	content: "";
 	position: absolute;
 	display: none;
@@ -69,8 +79,11 @@ ul
   .container input:checked ~ .checkmark:after {
 	display: block;
   }
+  .container input:checked ~ .checkmark1:after {
+	display: block;
+  }
   
-  .container .checkmark:after {
+  .container .checkmark:after  ,.container .checkmark1:after{
 	left: 8px;
 	top: 4px;
 	width: 4px;
@@ -82,7 +95,12 @@ ul
 	transform: rotate(45deg);
   }
 
-
+  .container .checkmark1:after{
+    left: 5px;
+    top: 4px;
+    width: 1px;
+	height: 3px;
+  }
   
 
 
@@ -139,7 +157,7 @@ margin: 0px;
     position: absolute;
 }
 
-#chooseColor , #chooseTag
+#chooseColor , #chooseTag , .chooseData
 {
     width: 145px;
     height: 0;
@@ -183,6 +201,28 @@ margin: 0px;
     border: 1px solid rgb(199, 199, 196);
    
 }
+
+.Icons ul  li:hover .chooseData
+{
+    
+    display: flex;
+    justify-content: center;
+    height: 85px;
+    width: 200px;
+    overflow: hidden;
+    transition: all 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow:  0px 0px 15px 1px rgba(219,212,219,1);
+    border: 1px solid rgb(199, 199, 196);
+   
+}
+.chooseData .checkmark 
+{
+   
+    left: 150px;
+    top: -10px;
+}
+
+
 #chooseTag #tagName
 {
 width: 100px;
@@ -350,6 +390,7 @@ position: absolute;
     width: 100%;
     position: absolute;
     left: 0;
+    font-size: 13px;
     bottom: 17px;
     background-color: rgb(232, 103, 107);
     text-align: center;

@@ -50,9 +50,7 @@
                                 <input type="button" value="Create" id="createTagButton">
                             </div>
                             <div id="boxTag">
-                                <div><input type="radio" name="" id="">
-                                    <p>dsa</p>
-                                </div>
+                              
 
                             </div>
                         </div>
@@ -63,7 +61,17 @@
                 </li>
 
                 <li>
-                    <div class="icon"><i class="fas fa-bell"> </i></div>
+                    <div class="icon"><i class="fas fa-bell"> </i>
+                        <div class="chooseData">
+                            <div> 
+                                    <input type="date" id="myDate" value="2019-01-01">
+                                <label class="container"><input type="checkbox" name="checkbox"> <span class="checkmark" id=" NotificationsCheckBox"></span>
+                                </label>
+                            </div>
+                
+                        </div>
+                
+                    </div>
                     <div class="tlo"></div>
                 </li>
 
@@ -92,9 +100,9 @@
                 <textarea id="noteText" cols="50" rows="10"></textarea>
                 <div id="lastModificationData"> </div>
 
-
-                <input type="button" value="Zamknij" id="create">
-               
+                <div><input type="button" value="Zamknij" id="create">
+                    <input type="button" value="Search" id="Search"></div>
+                
             </div>
            
         </div>
@@ -113,7 +121,7 @@
 <script>
     class Note {
 
-        constructor(topic, text, color, creationDate = "1", isChecked ) {
+        constructor(topic, text, color, creationDate = "1", isChecked  , Tags) {
             this.x = 0;
             this.y = 0
             this.topic = topic;
@@ -122,22 +130,25 @@
             this.creationDate = creationDate;
             this.isChecked = isChecked;
             this.newDiv = document.createElement("div");
-            this. tabTags;
-
+            this.Tags  = Tags;
+            this.checkedText;
         }
 
         //// indek id diva zgadzajoce sie z numerm w tablicy notatki
         CreateNote(index) {
+
+            if(this.isChecked==true)this.checkedText ="checked"
+            else this.checkedText ="unchecked"
             this.newDiv.style.backgroundColor = this.color;
             this.newDiv.className = "note";
             this.newDiv.id = index;
             this.newDiv.innerHTML += '<div class="icons"> <div class ="iconaExit"> <i class="fas fa-times-circle"></i> <i class="fas fa-bell"></i></div>' +'<label class="container">' +
-                '<input type="checkbox" name="checkbox"   >' +
-                '<span class="checkmark"></span>' +
+                '<input type="checkbox" name="checkbox"  '+  this.checkedText+' >' +
+                '<span  class="checkmark checkmarkTake " ></span>' +
                 '</label>'+'</div>';
             
             this.newDiv.innerHTML += '<div>"<h1>'+ this.topic + "</h1> <p>" + this.text + "</p></div>";
-            this.newDiv.innerHTML += '<div class="tags"> sdd</div>';
+            this.newDiv.innerHTML += '<div class="tags">' +this.Tags+'</div>';
             this.newDiv.innerHTML += '<div class="dataCreated"> '+this.creationDate+'</div>';
             if (this.isChecked == true)
                 document.querySelector("#Notes_checked").appendChild(this.newDiv);
@@ -149,36 +160,56 @@
 
 
     }
-
+    let tabNotsChosen;
     let button;
     let mousedownTarget;
+    let selectedTag;
 
     document.addEventListener('DOMContentLoaded', () => {
-     getValueFromStorage();
-
+        getValueNotesFromStorage();
+        getValueTagFromStorage();
     });
 
 
     const nots = [];
-    const storageArray = [];
+    const storageArrayNotes = [];
+    const storageArrayTag = [];
     const tabTag = [];
 
     //zapisywanie w localStorage
 
     function setStorageItems() {
         localStorage.clear();
-        localStorage.setItem('todos', JSON.stringify(storageArray));
+        localStorage.setItem('todos', JSON.stringify(storageArrayNotes));
+        localStorage.setItem('tag', JSON.stringify(storageArrayTag));
+        
     }
 
-    // odczytwyanie z localStorage
-    function getValueFromStorage() {
+    // odczytwyanie notes z localStorage
+    function getValueNotesFromStorage() {
+         
         const array = JSON.parse(localStorage.getItem('todos'));
         if (!array)
             return;
 
         array.forEach(a => {
-            storageArray.push(a)
-            nots.push(new Note(a.topic, a.text, a.color, a.creationDate , a.isChecked).CreateNote(storageArray.length-1))
+            storageArrayNotes.push(a);
+            nots.push(new Note(a.topic, a.text, a.color, a.creationDate , a.isChecked , a.Tags))
+            nots[nots.length-1].CreateNote(storageArrayNotes.length-1);
+          
+        });
+    }
+    // odczytwyanie tag z localStorage
+    function getValueTagFromStorage() {
+         
+        const array = JSON.parse(localStorage.getItem('tag'));
+        if (!array)
+            return;
+
+        array.forEach(a => {
+            storageArrayTag.push(a);
+            console.log(a);
+            addTag(a);
 
         });
     }
@@ -203,10 +234,10 @@
     // tworzenie notatki
     document.querySelector("#create").addEventListener("click", () => {
 
-        
-        let notatka = new Note(document.querySelector("#noteTopic").value, AddBr(document.querySelector("#noteText").value), document.querySelector("#noteCreator").style.backgroundColor, new Date().toLocaleString() , document.querySelector("#checkboxNoteCreate").checked)
-        storageArray.push(notatka);
-        storageArray[storageArray.length - 1].CreateNote(storageArray.length-1);
+
+        let notatka = new Note(document.querySelector("#noteTopic").value, AddBr(document.querySelector("#noteText").value), document.querySelector("#noteCreator").style.backgroundColor, new Date().toLocaleString() , document.querySelector("#checkboxNoteCreate").checked , SelectTag());
+        storageArrayNotes.push(notatka);
+        storageArrayNotes[storageArrayNotes.length - 1].CreateNote(storageArrayNotes.length-1);
         setStorageItems();
         ClearNoteCreator();
     })
@@ -230,46 +261,60 @@
     }
 
     //przypinai i odpinaie notatki
-    document.addEventListener('mousemove', (e) => {
-
-        if (e.target.className == "note") {
-
-            e.target.querySelector("input[name=checkbox]").addEventListener('change', () => {
-                if (e.target.querySelector("input[name=checkbox]").checked) {
-                    document.querySelector("#Notes_checked").appendChild(e.target);
-                   
-                    console.log(e.target.id);
-                    storageArray[e.target.id].isChecked =true;
-                   
-                   setStorageItems();
-                  
-                }
-
-                else
-                {
-                    document.querySelector("#Notes_unChecked").appendChild(e.target);
-                    storageArray[e.target.id].isChecked =false;
-                 
-                   setStorageItems();
-                   
-                }  
-            })
+       document.addEventListener("click", (e)=>
+    {
+            
+        if(e.target.className == "checkmark checkmarkTake ")
+        {
+            
+            let parent = e.target.parentNode.parentNode.parentNode;
+            if(!(e.target.parentNode.querySelector("input").checked))
+            {
+                document.querySelector("#Notes_checked").appendChild(parent);
+                storageArrayNotes[parent.id].isChecked =true;
+            }
+            else
+            {
+                document.querySelector("#Notes_unChecked").appendChild(parent);
+                storageArrayNotes[parent.id].isChecked =false;
+            }
+           
         }
+        setStorageItems();
+    }
+    )
 
-    })
+
+    
+   
+
+    
 
     //dodawanie tagów 
     document.querySelector("#createTagButton").addEventListener('click',
-        () => {
+        (e) => {
             if (document.querySelector('#tagName').value != "") {
-                let newDiv = document.createElement("div");
-                newDiv.innerHTML = '<input type="radio"  id="' + document.querySelector('#tagName').value + '"> <p>' + document.querySelector('#tagName').value + "</p>";
-
-                document.querySelector("#boxTag").appendChild(newDiv);
+               storageArrayTag.push(document.querySelector('#tagName').value);
+               addTag(document.querySelector('#tagName').value);
             }
 
         }
     )
+
+    function addTag(value)
+    {
+        
+        let newDiv = document.createElement("div");
+        newDiv.innerHTML += '<label class="container">' +
+                '<input type="checkbox" name="checkbox"   unchecked> <p>' +
+                    value+
+                '</p><span class="checkmark1"></span>' +
+                '</label></div>';
+
+               // newDiv.innerHTML = '<input type="radio"  id="' + value + '"> <p>' + value + "</p>";
+
+                document.querySelector("#boxTag").appendChild(newDiv);
+    }
 
     //usuwanie notatki 
     document.addEventListener("click", (e)=>
@@ -281,14 +326,116 @@
             let parent =  e.target.parentNode.parentNode.parentNode;
            
            
-            storageArray.splice(parent.id , 1);
-            parent.remove();
+            storageArrayNotes.splice(parent.id , 1);
             setStorageItems();
+            parent.remove();
+          
            
         }
     }
     )
+
+    ///// Funkcja przeglądająca wszystkie tagi i zapisująca tylko te zaznaczone
+    function SelectTag()
+    {
+        var tabtag =   document.querySelector("#boxTag").children;
+        selectedTag =" ";
+        for(let i = 0 ; i <tabtag.length;i++)
+        {
+            if(tabtag[i].querySelector("input").checked)
+            {
+                selectedTag += "#"+tabtag[i].querySelector("p").innerText+" ";
+                tabtag[i].querySelector("input").checked = false;
+            }
+        }
+     
+       return selectedTag;
+    }
+
+    document.querySelector("#Search").addEventListener("click", ()=>
+    {
+        TakeNotes(document.querySelector("#noteTopic").value , document.querySelector("#noteText").value  ,  SelectTag() )
+    })
+
+
+
+    /// Funkcja przeglodająca wszystkie notatki i zwracajoca tylko te z odpowiednimi parametrami
+    function TakeNotes(topic, text , tags)
+    {   
+
+     Deletechild("#Notes_checked");
+     Deletechild("#Notes_unChecked");
+
+     
+        for(let i =0 ; i<nots.length; i++)
+        {
+           
+            //&& nots[i].Tags.indexOf(tags)!==-1
+            //&& nots[i].text == text
+            
+          
+                if(nots[i].topic.indexOf(topic) > -1  &&  nots[i].text.indexOf(text) >-1 &&  nots[i].Tags.indexOf(tags) >-1)
+                {  
+
+                    if (nots[i].isChecked == true)
+                    {
+                        document.querySelector("#Notes_checked").appendChild(nots[i].newDiv);
+                        
+                    }
+                   
+                    else
+                    {
+                        document.querySelector("#Notes_unChecked").appendChild(nots[i].newDiv); 
+                    }
+                  
+                  
+                }
+            
+        }
+
+        
+        setStorageItems();
+      
+    }
+    //pokazuje wszystkie notatki
+    function ShowAllNots()
+    {
+        Deletechild("#Notes_checked");
+        Deletechild("#Notes_unChecked");
+        for(let i =0 ; i<nots.length; i++)
+        {
+            
+            if(nots[i].topic == topic)
+            {  
+
+                if (nots[i].isChecked == true)
+               document.querySelector("#Notes_checked").appendChild(nots[i].newDiv);
+                else
+                document.querySelector("#Notes_unChecked").appendChild(nots[i].newDiv); 
+                
+            }
+            
+        }
+    }
+
+    // usuwa wszystkie dzieci pliku podanego jako argumen parent
+    function Deletechild(parent)
+    {
+
+        
+
+
+        var myNode = document.querySelector(parent);
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+
+     
     
+    }
+
+
+
 
 /*// przesuwanie notatki po oknie przeglondarki 
 document.addEventListener("mousemove" , (e)=>
